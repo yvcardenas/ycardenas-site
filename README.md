@@ -49,9 +49,7 @@ I set up another program called Nginx in front of my Apache server so it handles
 ![ssl-verify.jpg](/media/) Verify your site uses HTTPS
 
 **github-deploy.mov** <br>
-<video width="320" height="240" controls>
-  <source src="/media/github-deploy.mov" type="video/mp4">
-</video>
+![github-deploy.gif](/media/Github-Deploy.gif)
 Showing Github deploy process
 
 
