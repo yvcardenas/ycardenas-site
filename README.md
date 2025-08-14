@@ -43,15 +43,16 @@ I set up another program called Nginx in front of my Apache server so it handles
 ![validator-initial.jpg](/media/validator-initial.jpg) - validating your copied index.html
 
 **vhosts-verify.jpg**
-![vhosts-verify.jpg](/media/) Demonstrating a functional domain.site, collector.domain.site, reporting.domain.sites
+![vhosts-verify.jpg](/media/vhosts-verify.jpg) Demonstrating a functional domain.site, collector.domain.site, reporting.domain.sites <br>
+<span style="color:red">DNS is not done propagating but here is a screenshot of the DNS records.</span>
 
 **ssl-verify.jpg**
-![ssl-verify.jpg](/media/) Verify your site uses HTTPS
+![ssl-verify.jpg](/media/) Verify your site uses HTTPS <br>
+<span style="color:red">Again, DNS is not done propagating but I still downloaded CertBot and will get those certificates when possible.</span>
 
 **github-deploy.mov** <br>
 ![github-deploy.gif](/media/Github-Deploy.gif)
 Showing Github deploy process
-
 
 **php-verification.jpg**
 ![php-verification.jpg](/media/php-verification.jpg) Demonstration of working php page
