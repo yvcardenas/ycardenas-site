@@ -1,6 +1,6 @@
 <?php
     //Outputs an echo of the environment variables of a request (HTTP request headers + Server variables)
-    header('Content-Type: test/html; charset=utf-8');
+    header('Content-Type: text/html; charset=utf-8');
     $env_vars = [];
     $server_vars = [];
 
@@ -28,14 +28,14 @@
     <hr>
     <h2>Environment Variables</h2>
     <ul>
-        <?php foreach ($env_vars as $key => $value)?>
-            <li><strong><?php echo h($key);?></strong>: <?php echo h($value)?></li>
+        <?php foreach ($env_vars as $key => $value): ?>
+            <li><strong><?php echo $key;?></strong>: <?php echo $value?></li>
         <?php endforeach; ?>
     </ul>
     <h2>Server Variables</h2>
     <ul>
-        <?php foreach ($server_vars as $key => $value)?>
-            <li><strong><?php echo h($key);?></strong>: <?php echo h($value)?></li>
+        <?php foreach ($server_vars as $key => $value): ?>
+            <li><strong><?php echo $key;?></strong>: <?php echo $value?></li>
         <?php endforeach; ?>
     </ul>
 </body>
