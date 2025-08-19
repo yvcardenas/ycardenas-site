@@ -1,5 +1,5 @@
-<!-- "hello-json-world" - The same as the hello-html-world demo, but it returns a JSON packed instead of HTML. -->
  <?php
+    // The same as the hello-html-world demo, but it returns a JSON packed instead of HTML.
     // Tell the browser that this is a JSON response
     header('Content-Type: application/json');
     // Set the local time zone
@@ -32,7 +32,14 @@
         'date' => "Todays's date is $now",
         'ip_address' => $client_ip
     ];
-    // Output the response as JSON
-    echo json_encode($response);
-    exit; // Ensure no further output is sent
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <?php echo json_encode($response); ?>
+</body>
+</html>
