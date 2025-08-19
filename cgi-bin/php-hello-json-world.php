@@ -32,14 +32,8 @@
         'date' => "Todays's date is $now",
         'ip_address' => $client_ip
     ];
+    // Output the response as JSON
+    echo json_encode($response);
+    // Exit to ensure no additional output is sent
+    exit;
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <?php echo json_encode($response); ?>
-</body>
-</html>
