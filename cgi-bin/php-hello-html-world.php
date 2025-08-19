@@ -39,6 +39,6 @@ $client_ip = get_client_ip();
     <p>Hello World</p>
     <p>This page was generated with the PHP programming language
     <p>This program was run at: <?php echo $now; ?></p>
-    <p>Your current IP address is <?php echo client_ip(); ?></p>
+    <p>Your current IP address is <?php echo $client_ip(); ?></p>
 </body>
 </html>
