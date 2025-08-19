@@ -9,7 +9,7 @@
             'HTTPS', 'REMOTE_ADDR','REMOTE_PORT', 'SERVER_NAME', 'SERVER_ADDR', 
             'SERVER_PORT', 'SERVER_PROTOCOL', 'REQUEST_METHOD', 'SCRIPT_NAME',
             'SCRIPT_URI', 'SCRIPT_URL', 'UNIQUE_ID'
-        ])) {
+        ], true)) {
             $server_vars[$key] = $value;
         } else {
             $env_vars[$key] = $value;
