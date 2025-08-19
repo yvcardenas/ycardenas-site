@@ -19,6 +19,7 @@
         <?php foreach ($_GET as $key => $value): ?>
             <li><strong><?php echo $key; ?></strong>: <?php echo $value; ?></li>
         <?php endforeach; ?>
+        <?php endif; ?>
     </ul>
 </body>
 </html>
