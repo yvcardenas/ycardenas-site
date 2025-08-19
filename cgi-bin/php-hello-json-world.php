@@ -29,10 +29,10 @@
     // Create an array with the response data
     $response = [
         'message' => 'Hello World from PHP!',
-        'date' => 'Todays\'s death is '$now,
+        'date' => "Todays's date is $now",
         'ip_address' => $client_ip
     ];
     // Output the response as JSON
     echo json_encode($response);
     exit; // Ensure no further output is sent
- ?>
+?>
