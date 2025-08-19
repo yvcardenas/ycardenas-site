@@ -7,7 +7,7 @@
     foreach ($_SERVER as $key => $value){
         if (strpos($key, 'HTTP_') === 0 || strpos($key, 'REQUEST_') === 0 || strpos($key, 'SERVER_') === 0 || strpos($key, 'SSL_') === 0 || in_array($key, [
             'HTTPS', 'REMOTE_ADDR','REMOTE_PORT', 'SERVER_NAME', 'SERVER_ADDR', 
-            'SERVER_PORT', 'SERVER_PROTOCOL', 'REQUEST_METHOD', 'SCRIPT_NAME', 'PATH',
+            'SERVER_PORT', 'SERVER_PROTOCOL', 'REQUEST_METHOD', 'SCRIPT_NAME', 'DOCUMENT_ROOT',
             'SCRIPT_URI', 'SCRIPT_URL', 'UNIQUE_ID', 'PHP_SELF', 'QUERY_STRING', 'GATEWAY_INTERFACE',
             'SCRIPT_FILENAME'
         ], true)) {
