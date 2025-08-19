@@ -13,15 +13,12 @@
 <body> 
     <h1>GET Request Echo</h1>
     <hr>
-    <p><strong>Query String:</strong> <?php echo ($query_string ?: 'None'); ?></p>
+    <p><strong>Query String:</strong> <?php echo $query_string; ?></p>
     <ul>
         <?php if (!empty($_GET)): ?>
         <?php foreach ($_GET as $key => $value): ?>
             <li><strong><?php echo $key; ?></strong>: <?php echo $value; ?></li>
         <?php endforeach; ?>
-        <?php else: ?>
-        <li><em>No GET parameters were provided.</em></li>
-        <?php endif; ?>
     </ul>
 </body>
 </html>
