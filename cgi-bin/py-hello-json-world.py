@@ -8,7 +8,7 @@ ip = (os.environ.get("HTTP_X_FORWARDED_FOR", '').split(",")[0].strip()
 
 data = {
     "message" : "Hello World from Python!",
-    "date" : datetime.datetime.now().isoformat(),
+    "date" : "Today's date is " + datetime.datetime.now().isoformat(),
     "ip_address" : ip
 }
 print(json.dumps(data))
