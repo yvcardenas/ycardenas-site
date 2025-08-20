@@ -42,7 +42,7 @@ if fields:
         print(f"<li><strong>{key}:</strong> {value}</li>")
 print(f"""
 </ul>
-<h3>Raw Body</h3>
+<p><strong>Raw Body</strong></p>
 <pre>{raw}</pre>
 </body>
 </html>
