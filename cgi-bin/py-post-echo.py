@@ -4,7 +4,7 @@ print("Content-Type: text/html; charset=utf-8")
 print()
 
 ctype = os.environ.get('CONTENT_TYPE', '')
-length = os.environ.get('CONTENT_LENGTH', '')
+length = int(os.environ.get('CONTENT_LENGTH', '0') or '0')
 raw = sys.stdin.read(length) if length  > 0 else ""
 
 fields = {}
@@ -14,11 +14,13 @@ if "application/x-www-form-urlencoded" in ctype and raw:
         for k, v in urllib.parse.parse_qs(raw).items()}
 
 elif "application/json" in ctype and raw:
-    decoded = json.loads(raw)
-    if isinstance(decoded, dict):
-        # flatten simple dict values for display
-        fields = {k: (", ".join(v) if isinstance(v, list) else v)
-            for k, v in decoded.items()}
+    try:
+        decoded = json.loads(raw)
+        if isinstance(decoded, dict):
+            fields = {k: (", ".join(v) if isinstance(v, list) else v)
+                for k, v in decoded.items()}
+    except Exception:
+        pass
 
 print(f"""
 <!DOCTYPE html>
