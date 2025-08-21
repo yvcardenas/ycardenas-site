@@ -54,9 +54,9 @@ if sess.get("username"):
     print(f"<p><b>Name:</b> {sess['username']}</p>")
 
 print("""
-<a href="/cgi-bin/python-sessions-2.py">Session 2</a><br/>
-<a href="/hw2/python-cgiform.html">Python CGI Form</a><br/>
-<form style="margin-top:30px" action="/cgi-bin/python-destroy-session.py" method="get">
+<a href="/cgi-bin/py-sessions-2.py">Session 2</a><br/>
+<a href="/hw2/py-cgiform.html">Python CGI Form</a><br/>
+<form style="margin-top:30px" action="/cgi-bin/py-destroy-session.py" method="get">
   <button type="submit">Destroy Session</button>
 </form>
 </body>

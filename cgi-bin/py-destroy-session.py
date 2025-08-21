@@ -35,8 +35,8 @@ print("""
 <body>
     <h1>Session Destroyed</h1>
     <hr>
-    <a href="/hw2/python-cgiform.html">Back to the Python CGI Form</a><br />
-    <a href="/cgi-bin/python-sessions-1.py">Back to Page 1</a><br />
-    <a href="/cgi-bin/python-sessions-2.py">Back to Page 2</a>
+    <a href="/hw2/py-cgiform.html">Back to the Python CGI Form</a><br />
+    <a href="/cgi-bin/py-sessions-1.py">Back to Page 1</a><br />
+    <a href="/cgi-bin/py-sessions-2.py">Back to Page 2</a>
 </body>
 </html>""")
