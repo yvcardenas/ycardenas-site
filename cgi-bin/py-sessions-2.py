@@ -2,25 +2,6 @@
 import os, json
 from http import cookies
 
-SESSION_DIR = "/tmp/pycgi_sessions"
-COOKIE_NAME = "PYSESSID"
-
-# cookie -> sid
-C = cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
-sid = C[COOKIE_NAME].value if COOKIE_NAME in C else None
-
-# load session
-sess = {}
-if sid:
-    p = os.path.join(SESSION_DIR, f"{sid}.json")
-    try:
-        with open(p, "r") as f:
-            sess = json.load(f)
-    except Exception:
-        pass
-
-name = sess.get("username", "")
-
 print("Content-Type: text/html\n")
 print("""<!DOCTYPE html>
 <html>
