@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os, uuid, json, sys
+import cgi
 from urllib.parse import parse_qs
 from http import cookies
 
@@ -20,21 +21,21 @@ try:
 except Exception:
     sess = {}
 
-# read form via CGI
+# read form
 form = cgi.FieldStorage()
-name = form.getfirst("username", "").strip()
+name = (form.getfirst("username") or "").strip()
 if name:
     sess["username"] = name
     with open(session_path, "w") as f:
         json.dump(sess, f)
 
 # set cookie
-setcookie = cookies.SimpleCookie()
-setcookie[COOKIE_NAME] = sid
-setcookie[COOKIE_NAME]["path"] = "/"
+out = cookies.SimpleCookie()
+out[COOKIE_NAME] = sid
+out[COOKIE_NAME]["path"] = "/"
 
 print("Content-Type: text/html")
-print(setcookie.output())
+print(out.output())
 print()
 print("""<!DOCTYPE html>
 <html>
