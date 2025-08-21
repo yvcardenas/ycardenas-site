@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import os, uuid, json, sys
-import cgi
 from urllib.parse import parse_qs
 from http import cookies
 
@@ -9,11 +8,9 @@ COOKIE_NAME = "PYSESSID"
 
 os.makedirs(SESSION_DIR, exist_ok=True)
 
-# cookie -> sid (create if missing)
 C = cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
 sid = C[COOKIE_NAME].value if COOKIE_NAME in C else uuid.uuid4().hex
 
-# load session dict
 session_path = os.path.join(SESSION_DIR, f"{sid}.json")
 try:
     with open(session_path, "r") as f:
@@ -21,22 +18,24 @@ try:
 except Exception:
     sess = {}
 
-# read form
-form = cgi.FieldStorage()
-name = (form.getfirst("username") or "").strip()
+method = os.environ.get("REQUEST_METHOD", "")
+cl = os.environ.get("CONTENT_LENGTH", "")
+cl = int(cl) if cl and cl.isdigit() else 0
+input_data = sys.stdin.read(cl) if method == "POST" else os.environ.get("QUERY_STRING", "")
+name = parse_qs(input_data).get("username", [""])[0].strip()
+
 if name:
     sess["username"] = name
     with open(session_path, "w") as f:
-        json.dump(sess, f)
+        json.dump(sess, f)  
 
 # set cookie
-out = cookies.SimpleCookie()
-out[COOKIE_NAME] = sid
-out[COOKIE_NAME]["path"] = "/"
+setcookie = cookies.SimpleCookie()
+setcookie[COOKIE_NAME] = sid
+setcookie[COOKIE_NAME]["path"] = "/"
 
 print("Content-Type: text/html")
-print(out.output())
-print()
+print(setcookie.output())
 print("""<!DOCTYPE html>
 <html>
 <head>
