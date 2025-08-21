@@ -20,17 +20,13 @@ try:
 except Exception:
     sess = {}
 
-# read form (POST or GET) and update
-method = os.environ.get("REQUEST_METHOD", "")
-cl = os.environ.get("CONTENT_LENGTH", "")
-cl = int(cl) if cl and cl.isdigit() else 0
-input_data = sys.stdin.read(cl) if method == "POST" else os.environ.get("QUERY_STRING", "")
-name = parse_qs(input_data).get("username", [""])[0].strip()
-
+# read form via CGI
+form = cgi.FieldStorage()
+name = form.getfirst("username", "").strip()
 if name:
     sess["username"] = name
     with open(session_path, "w") as f:
-        json.dump(sess, f)  
+        json.dump(sess, f)
 
 # set cookie
 setcookie = cookies.SimpleCookie()
