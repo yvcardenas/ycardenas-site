@@ -11,7 +11,6 @@
 <body>
     <h1>PHP Sessions Page 2</h1>
     <p><b>Name:</b> <?php echo $name ?></p>
-    <br><br>
     <a href="/cgi-bin/php-sessions-1.php">Session Page 1</a><br/>
     <a href="/hw2/php-cgiform.html">PHP CGI Form</a><br />
     <form style="margin-top:30px" action="/cgi-bin/php-destroy-session.php" method="post">

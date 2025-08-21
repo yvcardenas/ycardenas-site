@@ -17,7 +17,6 @@ $name = isset($_SESSION['username']) ? $_SESSION['username'] : null;
     <h1>PHP Session 1</h1>
     <hr>
     <p><b>Name:</b> <?php echo $name; ?></p>
-    <br><br>
     <a href="/cgi-bin/php-sessions-2.php">Session Page 2</a><br/>
     <a href="/hw2/php-cgiform.html">PHP CGI Form</a><br />
     <form style="margin-top:30px" action="/cgi-bin/php-destroy-session.php" method="post">
