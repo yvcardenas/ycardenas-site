@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Hello Data Viz</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <style>
+        body{
+            margin:0;
+            padding:18px;
+            font-family:Inter,system-ui,sans-serif;
+            background:#fff0f5;color:#5a2d3c
+        }
+        .wrap{
+            max-width:1100px;
+            margin:auto
+        }
+        h1{
+            margin:.2rem 0 1rem
+        }
+        .card{
+            background:#ffe4ec;
+            border:1px solid #ffc2d1;
+            border-radius:14px;
+            padding:12px;
+            margin:12px 0;
+            box-shadow:0 6px 20px rgba(255,192,203,.35)
+        }
+        .grid{
+            display:grid;
+            gap:12px
+        } 
+        @media(min-width:940px){
+            .grid{
+                grid-template-columns:1fr 1fr
+            }
+        }
+        .chart{
+            height:380px
+        }
+        .btn{
+            background:#ff8fb6;
+            color:#fff;
+            border:0;
+            border-radius:10px;
+            padding:6px 10px;
+            font-weight:700;
+            cursor:pointer;
+            float:right
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>hello data viz</h1>
+        <div class="card">
+            <button class="btn" id="refresh">Refresh live data</button>
+            <div id="line" class="chart"></div>
+            <h6>3-series line — performance metrics by day</h6>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div id="bar" class="chart"></div>
+                <h6>2-series bar — avg screen width/height by platform</h6>
+            </div>
+            <div class="card">
+              <div id="pie" class="chart"></div>
+              <h6>Pie — activity event distribution</h6>
+            </div>
+        </div>
+    </div>
+<script>
+  // ---------- DUMMY (renders immediately) ----------
+  function drawDummy(){
+    zingchart.render({id:'line',height:'100%',width:'100%',data:{
+      type:'line', backgroundColor:'#ffe4ec',
+      title:{text:'Performance (dummy)',fontColor:'#5a2d3c'},
+      legend:{backgroundColor:'#fff0f5',borderColor:'#ffc2d1',item:{fontColor:'#5a2d3c'}},
+      scaleX:{values:['2025-09-01','2025-09-02','2025-09-03'],item:{fontColor:'#5a2d3c'}},
+      scaleY:{label:{text:'ms'},item:{fontColor:'#5a2d3c'}},
+      series:[
+        {text:'LCP',values:[1200,980,1100]},
+        {text:'FID',values:[40,22,30]},
+        {text:'CLS',values:[0.18,0.10,0.12]}
+      ]
+    }});
+    zingchart.render({id:'bar',height:'100%',width:'100%',data:{
+      type:'bar', backgroundColor:'#ffe4ec',
+      title:{text:'Screen size by platform (dummy)',fontColor:'#5a2d3c'},
+      legend:{backgroundColor:'#fff0f5',borderColor:'#ffc2d1',item:{fontColor:'#5a2d3c'}},
+      scaleX:{values:['MacIntel','Win32','Linux'],item:{fontColor:'#5a2d3c'}},
+      series:[{text:'Width',values:[1440,1920,1366]},{text:'Height',values:[900,1080,768]}]
+    }});
+    zingchart.render({id:'pie',height:'100%',width:'100%',data:{
+      type:'pie', backgroundColor:'#ffe4ec',
+      title:{text:'Activity (dummy)',fontColor:'#5a2d3c'},
+      plot:{valueBox:{placement:'out',text:'%npv%'}},
+      series:[
+        {text:'click',value:45},{text:'mousemove',value:25},
+        {text:'scroll',value:15},{text:'keydown',value:10},{text:'other',value:5}
+      ]
+    }});
+  }
+
+  // ---------- LIVE (from your /api) ----------
+  const J = (u)=>fetch(u,{headers:{'Accept':'application/json'}}).then(r=>{if(!r.ok)throw new Error(u+': '+r.status);return r.json()});
+  const day = t => { const d=new Date(t); return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())).toISOString().slice(0,10); };
+
+  async function loadLive(){
+    const [perf, stat, act] = await Promise.all([
+      J('/api/performance?limit=500'),
+      J('/api/static?limit=500'),
+      J('/api/activity?limit=500'),
+    ]);
+
+    // LINE: LCP/FID/CLS by day
+    const want = ['LCP','FID','CLS'];
+    const byDay = {}; // {YYYY-MM-DD: {LCP:.., FID:.., CLS:..}}
+    perf.forEach(p => {
+      const d = day(p.created_at || Date.now());
+      (byDay[d] ||= {})[p.metric] = Number(p.value_ms ?? p.value ?? 0);
+    });
+    const days = Object.keys(byDay).sort();
+    const lineSeries = want.map(m => ({text:m, values:days.map(d=>byDay[d][m] ?? null)}))
+                           .filter(s=>s.values.some(v=>v!=null));
+    zingchart.exec('line','setdata',{data:{
+      type:'line', backgroundColor:'#ffe4ec',
+      title:{text:'Performance (live)',fontColor:'#5a2d3c'},
+      legend:{backgroundColor:'#fff0f5',borderColor:'#ffc2d1',item:{fontColor:'#5a2d3c'}},
+      scaleX:{values:days,item:{fontColor:'#5a2d3c'}},
+      scaleY:{label:{text:'ms'},item:{fontColor:'#5a2d3c'}},
+      series: lineSeries
+    }});
+
+    // BAR: avg width/height per platform
+    const agg = {};
+    stat.forEach(s=>{
+      const k=s.platform||'unknown';
+      (agg[k] ||= {w:0,h:0,c:0});
+      agg[k].w += Number(s.screen_w||0);
+      agg[k].h += Number(s.screen_h||0);
+      agg[k].c++;
+    });
+    const plats = Object.keys(agg).sort();
+    const avgW = plats.map(k=>agg[k].c?Math.round(agg[k].w/agg[k].c):0);
+    const avgH = plats.map(k=>agg[k].c?Math.round(agg[k].h/agg[k].c):0);
+    zingchart.exec('bar','setdata',{data:{
+      type:'bar', backgroundColor:'#ffe4ec',
+      title:{text:'Screen size by platform (live)',fontColor:'#5a2d3c'},
+      legend:{backgroundColor:'#fff0f5',borderColor:'#ffc2d1',item:{fontColor:'#5a2d3c'}},
+      scaleX:{values:plats,item:{fontColor:'#5a2d3c'}},
+      series:[{text:'Width',values:avgW},{text:'Height',values:avgH}]
+    }});
+
+    // PIE: counts by event
+    const counts = {}; act.forEach(a => counts[a.event||'other']=(counts[a.event||'other']||0)+1);
+    const series = Object.entries(counts).map(([k,v])=>({text:k,value:v}));
+    zingchart.exec('pie','setdata',{data:{
+      type:'pie', backgroundColor:'#ffe4ec',
+      title:{text:'Activity (live)',fontColor:'#5a2d3c'},
+      plot:{valueBox:{placement:'out',text:'%npv%'}},
+      series
+    }});
+  }
+
+  drawDummy();
+  loadLive().catch(()=>{/* keep dummy if API not ready */});
+  document.getElementById('refresh').addEventListener('click', ()=>loadLive().catch(e=>alert(e.message)));
+</script>
+</body>
+</html>

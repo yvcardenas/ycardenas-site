@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-eidth, initial-scale=1.0"/>
+  <title>Database Viewer</title>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <script src="https://cdn.zinggrid.com/zinggrid.min.js" defer></script>
+  <style>
+    :root{
+      --bg: #fff0f5;
+      --card: #ffe4ec;
+      --muted: #a87587;
+      --fg: #5a2d3c;
+      --accent: #ff8fb6;
+      --border: #ffc2d1;
+      --pad: 16px;
+      --radius: 14px;
+      --shadow: 0 6px 20px rgba(255,192,203,.4);
+    }
+    *{ 
+      box-sizing: border-box; 
+
+    }
+    body {
+      margin: 0; 
+      padding: var(--pad);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--fg); 
+      background: var(--bg);
+    }
+    header{
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .brand{ 
+      font-weight: 800; 
+      font-size: 24px; 
+      letter-spacing: .3px; 
+    }
+    .muted{ 
+      color: var(--muted); 
+      font-size: 14px; 
+    }
+    .card{
+      background: linear-gradient(180deg, #0f1830 0%, #0b1220 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .tabs{
+      display: flex; gap: 8px; margin: 12px 0;
+    }
+    .tab-btn{
+      padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border);
+      background: #0f1830; color: var(--fg); cursor: pointer; font-weight: 600;
+    }
+    .tab-btn.active{ 
+      background: var(--accent); 
+      color: #0b1220; 
+      border-color: transparent; 
+    }
+    .tab-pane{ 
+      display: none; 
+    }
+    .tab-pane.active{ 
+      display: block; 
+    }
+    .toolbar{
+      display: flex; 
+      gap: 8px; 
+      align-items: center; 
+      margin: 8px 0 12px;
+      flex-wrap: wrap;
+    }
+    .input{
+      background: #0b1327; 
+      border: 1px solid var(--border); 
+      color: var(--fg);
+      padding: 8px 10px; 
+      border-radius: 10px; 
+      min-width: 220px;
+    }
+    .btn{
+      background: var(--accent); 
+      color: #0b1220; 
+      border: none; 
+      padding: 8px 12px;
+      border-radius: 10px; 
+      font-weight: 700; 
+      cursor: pointer;
+    }
+    zing-grid{
+      height: 62vh; border-radius: 10px; overflow: hidden;
+      --zg-head-bg: #0f1a33;
+      --zg-head-color: #cfe0ff;
+      --zg-row-separator: #1c2a49;
+      --zg-border-color: #1c2a49;
+      --zg-cell-padding: 10px 12px;
+    }
+    .counts{ 
+      font-weight: 700; 
+      color: var(--accent); 
+    }
+    footer{ 
+      margin-top: 18px; 
+      color: var(--muted); 
+      font-size: 13px; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Logs</h1>
+  <p>Data is loaded live from your REST API endpoints.</p>
+
+  <div class="grids">
+    <!-- Static -->
+    <section>
+      <h2>Static</h2>
+      <zing-grid caption="Static" src="/api/static" pager page-size="25" layout="row" editor-controls="false">
+        <zg-col name="id" header="ID" width="90"></zg-col>
+        <zg-col name="session_id" header="Session" width="180"></zg-col>
+        <zg-col name="lang" header="Lang" width="100"></zg-col>
+        <zg-col name="platform" header="Platform" width="160"></zg-col>
+        <zg-col name="screen_w" header="W" width="90"></zg-col>
+        <zg-col name="screen_h" header="H" width="90"></zg-col>
+        <zg-col name="created_at" header="Created At" width="220"></zg-col>
+      </zing-grid>
+    </section>
+
+    <!-- Performance -->
+    <section>
+      <h2>Performance</h2>
+      <zing-grid caption="Performance" src="/api/performance" pager page-size="25" layout="row" editor-controls="false">
+        <zg-col name="id" header="ID" width="90"></zg-col>
+        <zg-col name="session_id" header="Session" width="180"></zg-col>
+        <zg-col name="metric" header="Metric" width="120"></zg-col>
+        <zg-col name="value_ms" header="Value (ms)" width="120"></zg-col>
+        <zg-col name="created_at" header="Created At" width="220"></zg-col>
+      </zing-grid>
+    </section>
+
+    <!-- Activity -->
+    <section>
+      <h2>Activity</h2>
+      <zing-grid caption="Activity" src="/api/activity" pager page-size="25" layout="row" editor-controls="false">
+        <zg-col name="id" header="ID" width="90"></zg-col>
+        <zg-col name="session_id" header="Session" width="180"></zg-col>
+        <zg-col name="event" header="Event" width="140"></zg-col>
+        <zg-col name="payload" header="Payload" width="400"></zg-col>
+        <zg-col name="created_at" header="Created At" width="220"></zg-col>
+      </zing-grid>
+    </section>
+  </div>
+</body>
+</html>

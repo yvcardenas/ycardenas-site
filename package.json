@@ -1,0 +1,27 @@
+{
+  "name": "ycardenas.site",
+  "version": "1.0.0",
+  "description": "- **Yvanna Cardenas** - [About Page](https://ycardenas.site/members/yvannacardenas.html) <br> [If DNS not live PRESS ME](http://146.190.125.104/members/yvannacardenas.html)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yvcardenas/ycardenas-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yvcardenas/ycardenas-site/issues"
+  },
+  "homepage": "https://github.com/yvcardenas/ycardenas-site#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "json-server": "^0.17.4",
+    "mysql2": "^3.14.4"
+  }
+}
