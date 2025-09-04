@@ -1,0 +1,87 @@
+:root{
+    --bg: #fff0f5;
+    --card: #ffe4ec;
+    --muted: #a87587;
+    --fg: #5a2d3c;
+    --accent: #ff8fb6;
+    --border: #ffc2d1;
+    --pad: 1.5rem;
+    --shadow: 0 6px 20px rgba(255,192,203,.4);
+}
+body{
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Comorant Garamond", serif;
+    margin: 0;
+    padding: var(--pad);
+}
+main{
+    display: grid;
+    /* grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto; */
+    grid-template-areas: 
+        "title photo"
+        "bio photo";
+    align-items: stretch;
+    /* gap: var(--pad); */
+}
+h2{
+    /* grid-row: 1 / 2; */
+    grid-area: title;
+}
+.bio{
+    /* grid-column: 1 / 2;
+    grid-row: 2 /2; */
+    padding-right: var(--pad);
+    grid-area: bio;
+}
+.photo-me{
+    /* grid-column: 2 / 2;
+    grid-row: 2 / 2; */
+    display: flex;
+    align-items: center;
+    padding-left: var(--pad);
+    grid-area: photo;
+}
+.photo-me img{
+    border-radius: 2.5%;
+    box-shadow: var(--shadow);
+    height: auto;
+    width: auto;
+    min-width: 250px;
+    min-height: 350px;
+    max-width: 350px;
+    max-height: 450px;
+}
+a{
+    text-decoration: none;
+    padding: 0.1rem 0.3rem;
+    color: var(--fg);
+}
+a:hover{
+    background-color: var(--accent);
+    color: var(--bg);
+}
+@media (max-width: 800px) {
+    main{
+        grid-template-columns: 1fr;
+        /* grid-template-rows: auto; */
+        grid-template-areas:
+            "title"
+            "photo"
+            "bio";
+    }
+    h2{
+        grid-area: title;
+    }
+    .photo-me{
+        display: flex;
+        justify-content: center;
+        grid-area: photo;
+        padding: 0;
+    }
+    .bio{
+        grid-area: bio;
+        padding: 0;
+    }
+}

@@ -1,0 +1,55 @@
+:root{
+    --bg: #fff0f5;
+    --card: #ffe4ec;
+    --muted: #a87587;
+    --fg: #5a2d3c;
+    --accent: #ff8fb6;
+    --border: #ffc2d1;
+    --pad: 1.5rem;
+    --shadow: 0 6px 20px rgba(255,192,203,.4);
+}
+body{
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Comorant Garamond", serif;
+    margin: 0;
+    padding: var(--pad);
+}
+main{
+    display: grid;
+    grid-template-areas: 
+        "hw1 members"
+        "hw2 hw2"
+        "hw3 hw3";
+    align-items: stretch;
+}
+.homework1-links{
+    grid-area: hw1;
+}
+.team-bios{
+    grid-area: members;
+    box-shadow: var(--shadow);
+    background: var(--card);
+    padding-left: var(--pad);
+    a{
+        text-decoration: none;
+    }
+    a:hover{
+        color: var(--accent);
+    }
+}
+.homework2-links{
+    grid-area: hw2;
+    display: grid;
+    grid-template-areas: 
+    "title title title title"
+    "perl c python php";
+}
+.homework2-links h2{ grid-area: title;}
+.homework2-links #perl{ grid-area: perl;}
+.homework2-links #c{ grid-area: c;}
+.homework2-links #python{ grid-area: python;}
+.homework2-links #php{ grid-area: php;}
+.homework3-links{
+    grid-area: hw3;
+}
