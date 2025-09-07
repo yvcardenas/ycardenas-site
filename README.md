@@ -130,3 +130,56 @@ The dashboard demonstrates three important aspects of analytics:
 - **Identifying and acting on issues (errors)**  
 
 While I could have added more metrics (e.g., devices, bounce rate, error rates over time), I intentionally kept the dashboard simple but representative. Each visualization serves a different role and matches the nature of the data.  
+
+--- 
+### Report - Error Analysis
+**Question:** *How many users are hitting JavaScript errors, how does that change over time, and what are the top issues right now?*  
+**URL:** `https://reporting.ycardenas.site/error-report.html` (linked from the dashboard’s “Recent Errors” panel)
+
+#### Why this metric?
+
+I chose to report on **client-side errors** because they have a direct, visible impact on user experience and developer priorities. Unlike aggregate usage metrics, errors map to actionable work items: which users were affected, when spikes happened, and what to fix first.
+
+#### Data & pipeline
+
+The page uses the exact same collection and storage pipeline as the dashboard: <br><br>
+collector.js -> /api/activity -> MySQL -> error-report.html
+
+The report filters `event = "error"` and analyzes the last **14 days** to balance signal vs. noise (short enough to reflect current code, long enough to show meaningful trend).
+
+#### Visuals & Components
+
+1) **Line Chart — Errors per day (last 14 days)**  
+   - **Why a line?** Errors are time series. A line chart best communicates spikes, regressions, or improvements across days.  
+   - **Y-axis labeled “Errors”** so the scale is obvious.  
+   - **Empty state**: if there are no errors in the range, the chart title clearly states that.
+
+2) **Grid — Error details**  
+   - **Why a grid?** Debugging needs raw context (timestamp, session, message, file). A chart hides this. A table lets developers scan and sort quickly.  
+   - Columns included: `created_at`, `session_id`, `message`, `file`.
+
+3) **Summary strip**  
+   - Presents **total errors**, **impacted sessions (unique)**, and the **top error message** for the last 14 days.  
+   - This previews the information before diving into details.
+
+#### Design decisions & user-centered reasoning
+
+- **Timeframe (last 14 days)**: If we use “all time,” the chart tends to look flat or misleading. A recent window reflects the current code state and focuses the reader on actionable trend changes.  
+- **One chart + one grid**: Each modality serves a different user need: trend recognition vs. diagnosis.  
+- **Terminology & labeling**: Axis labels and captions avoid guesswork. The empty-state for 0 rows prevents “is this broken?” confusion.  
+- **Simplicity**: Kept interaction minimal (just a refresh button). In a real team context we could add filters (by page, by message, by environment).
+
+#### Alternatives considered
+
+- **Pie/stacked charts** for error distribution by message: visually busy with many categories; less useful than a sortable table.  
+- **Cumulative counts**: for small datasets this can mask spikes. Daily bins make anomalies stand out.  
+- **DAU or Languages for the report**: those are already summarized effectively on the dashboard and don’t need row-level context as urgently as errors.
+
+#### Outcome
+
+The report helps answer:
+- Are users currently running into errors?
+- How widespread is the impact (unique sessions)?
+- What should we fix first?
+
+This combines **trend awareness** (line chart) with **immediate actionability** (grid), and is built with the same collection layer as the dashboard for consistency.
